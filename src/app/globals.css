@@ -4,25 +4,25 @@
 
 @layer base {
   :root {
-    --background: 207 91% 94%;
+    --background: 207 90% 95.1%; /* E3F2FD */
     --foreground: 222.2 47.4% 11.2%;
     --card: 0 0% 100%;
     --card-foreground: 222.2 47.4% 11.2%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 47.4% 11.2%;
-    --primary: 217 91% 60%;
+    --primary: 207 82% 66%; /* #64B5F6 */
     --primary-foreground: 0 0% 100%;
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 210 40% 9.8%;
     --muted: 210 40% 96.1%;
     --muted-foreground: 210 38.8% 45.1%;
-    --accent: 35 100% 65%;
+    --accent: 35 98% 65%; /* #FFB74D */
     --accent-foreground: 35 100% 15%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 217 91% 60%;
+    --ring: 207 82% 66%;
     --radius: 0.5rem;
   }
 
@@ -33,19 +33,19 @@
     --card-foreground: 210 40% 98%;
     --popover: 222 47% 11%;
     --popover-foreground: 210 40% 98%;
-    --primary: 217 91% 60%;
+    --primary: 207 82% 66%;
     --primary-foreground: 0 0% 100%;
     --secondary: 217 33% 17%;
     --secondary-foreground: 210 40% 98%;
     --muted: 217 33% 17%;
     --muted-foreground: 215 20% 65%;
-    --accent: 35 100% 65%;
+    --accent: 35 98% 65%;
     --accent-foreground: 35 100% 15%;
     --destructive: 0 63% 31%;
     --destructive-foreground: 210 40% 98%;
     --border: 217 33% 27%;
     --input: 217 33% 27%;
-    --ring: 217 91% 60%;
+    --ring: 207 82% 66%;
   }
 }
 
@@ -61,9 +61,10 @@
 @layer components {
   .prompt-card {
     position: relative;
-    background-color: transparent;
-    border: none;
     border-radius: var(--radius);
+    background: linear-gradient(to bottom, hsl(210, 80%, 98%), #ffffff);
+    padding: 2px;
+    transition: all 300ms ease-in-out;
   }
 
   .prompt-card::before {
@@ -71,15 +72,14 @@
     position: absolute;
     inset: 0;
     border-radius: inherit;
-    padding: 2px; /* This controls the border thickness */
     background: linear-gradient(to bottom right, hsl(var(--primary)), hsl(var(--accent)));
-    -webkit-mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
     opacity: 0;
     transition: opacity 300ms ease-in-out;
+    z-index: -1;
+  }
+
+  .prompt-card:hover {
+    background: transparent;
   }
 
   .prompt-card:hover::before {
