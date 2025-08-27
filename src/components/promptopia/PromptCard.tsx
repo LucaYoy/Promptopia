@@ -45,8 +45,8 @@ export default function PromptCard({ prompt, onToggleFavorite, onDelete }: Promp
     }
 
   return (
-    <Card className="prompt-card h-full bg-card shadow-md hover:shadow-lg transition-shadow duration-300">
-      <div className="relative z-10 flex flex-col h-full bg-card rounded-lg p-1">
+    <div className="prompt-card h-full shadow-md hover:shadow-lg transition-shadow duration-300">
+      <Card className="relative z-10 flex flex-col h-full bg-card rounded-lg">
         <CardHeader>
           <CardTitle className="font-headline">{prompt.title}</CardTitle>
         </CardHeader>
@@ -91,7 +91,7 @@ export default function PromptCard({ prompt, onToggleFavorite, onDelete }: Promp
             </AlertDialogContent>
           </AlertDialog>
         </CardFooter>
-      </div>
-    </Card>
+      </Card>
+    </div>
   );
 }
