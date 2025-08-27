@@ -10,7 +10,6 @@ export default function Header() {
             Promptopia
           </h1>
         </div>
-        <p className="text-muted-foreground">Hi, User!</p>
       </div>
     </header>
   );
