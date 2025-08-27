@@ -71,7 +71,7 @@
     position: absolute;
     inset: 0;
     border-radius: inherit;
-    padding: 2px; /* border width */
+    padding: 2px; /* This controls the border thickness */
     background: linear-gradient(to bottom right, hsl(var(--primary)), hsl(var(--accent)));
     -webkit-mask:
       linear-gradient(#fff 0 0) content-box,

@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from 'framer-motion';
 import { Heart, Trash2 } from 'lucide-react';
 import type { Prompt } from '@/lib/types';
 import { Button } from '@/components/ui/button';
