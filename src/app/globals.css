@@ -57,3 +57,31 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  .prompt-card {
+    position: relative;
+    background-color: transparent;
+    border: none;
+  }
+
+  .prompt-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 2px; /* border width */
+    background: linear-gradient(to bottom right, hsl(var(--accent)), #fde047);
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 300ms ease-in-out;
+  }
+
+  .prompt-card:hover::before {
+    opacity: 1;
+  }
+}
