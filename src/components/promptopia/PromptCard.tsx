@@ -45,13 +45,14 @@ export default function PromptCard({ prompt, onToggleFavorite, onDelete }: Promp
     }
 
   return (
-      <Card className="prompt-card h-full shadow-md hover:shadow-lg transition-shadow duration-300 bg-transparent border-0">
-        <div className="flex flex-col h-full bg-card rounded-md">
+      <Card className="prompt-card h-full shadow-md hover:shadow-lg transition-shadow duration-300">
+        <div className="relative flex flex-col h-full bg-card rounded-md z-10">
             <CardHeader>
             <CardTitle className="font-headline">{prompt.title}</CardTitle>
             </CardHeader>
             <CardContent className="flex-grow">
             <p className="text-sm text-muted-foreground break-words">{prompt.content}</p>
+
             </CardContent>
             <CardFooter className="flex justify-end gap-2">
             <Button
