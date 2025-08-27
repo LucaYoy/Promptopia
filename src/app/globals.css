@@ -14,7 +14,7 @@
     --primary-foreground: 0 0% 100%;
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 210 40% 9.8%;
-    --muted: 210 40% 96.1%;
+    --muted: 207 90% 90%;
     --muted-foreground: 210 38.8% 45.1%;
     --accent: 35 98% 65%; /* #FFB74D */
     --accent-foreground: 35 100% 15%;
@@ -61,17 +61,14 @@
 @layer components {
   .prompt-card {
     position: relative;
-    overflow: hidden;
     padding: 2px;
   }
-
+  
   .prompt-card::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
+    border-radius: var(--radius);
     background: linear-gradient(to bottom right, hsl(var(--primary)), hsl(var(--accent)));
     opacity: 0;
     transition: opacity 300ms ease-in-out;
