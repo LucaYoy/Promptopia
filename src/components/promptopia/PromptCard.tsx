@@ -46,7 +46,7 @@ export default function PromptCard({ prompt, onToggleFavorite, onDelete }: Promp
 
   return (
     <Card className="relative group overflow-hidden h-full bg-card shadow-md hover:shadow-lg transition-shadow duration-300">
-      <div className="absolute inset-[-1px] rounded-lg p-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+      <div className="absolute inset-[-2px] rounded-lg p-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
         <div className="h-full w-full rounded-lg bg-gradient-to-br from-accent to-yellow-400"></div>
       </div>
       <div className="relative z-10 flex flex-col h-full bg-card rounded-lg">
