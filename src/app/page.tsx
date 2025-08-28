@@ -6,7 +6,8 @@ import type { Prompt, Category } from '@/lib/types';
 import Header from '@/components/promptopia/Header';
 import NewPromptCard from '@/components/promptopia/NewPromptCard';
 import PromptList from '@/components/promptopia/PromptList';
-import { Book, Code2, Gamepad2, Megaphone, PenSquare, Zap } from 'lucide-react';
+import ManageCategoriesButton from '@/components/promptopia/ManageCategoriesButton';
+import { Book, Code2, Gamepad2, Megaphone, PenSquare, Zap, Star } from 'lucide-react';
 
 const initialCategories: Category[] = [
   { id: 'writing', name: 'Writing', icon: PenSquare },
@@ -50,7 +51,7 @@ const initialPrompts: Prompt[] = [
 
 export default function Home() {
   const [prompts, setPrompts] = useState<Prompt[]>(initialPrompts);
-  const [categories] = useState<Category[]>(initialCategories);
+  const [categories, setCategories] = useState<Category[]>(initialCategories);
 
   const handleAddPrompt = (newPrompt: Omit<Prompt, 'id' | 'favorite'>) => {
     setPrompts(prev => [
@@ -69,21 +70,46 @@ export default function Home() {
     );
   };
 
+  const handleAddCategory = (category: Omit<Category, 'id'>) => {
+    const newCategory: Category = {
+      ...category,
+      id: category.name.toLowerCase().replace(/\s+/g, '-'),
+    };
+    setCategories(prev => [...prev, newCategory]);
+  };
+
+  const handleDeleteCategory = (id: string) => {
+    setCategories(prev => prev.filter(c => c.id !== id));
+    // Also delete prompts associated with this category
+    setPrompts(prev => prev.filter(p => p.category !== id));
+  };
+
   const favoritePrompts = useMemo(() => prompts.filter(p => p.favorite), [prompts]);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header />
       <main className="container mx-auto px-4 py-8">
-        <NewPromptCard categories={categories} onAddPrompt={handleAddPrompt} />
-        <div className="mt-12">
-          <PromptList
-            prompts={prompts}
-            favoritePrompts={favoritePrompts}
-            categories={categories}
-            onToggleFavorite={handleToggleFavorite}
-            onDelete={handleDeletePrompt}
-          />
+        <div className="space-y-8">
+            <div className="flex justify-between items-start">
+              <NewPromptCard categories={categories} onAddPrompt={handleAddPrompt} />
+              <div className="ml-4">
+                  <ManageCategoriesButton
+                    categories={categories}
+                    onAddCategory={handleAddCategory}
+                    onDeleteCategory={handleDeleteCategory}
+                  />
+              </div>
+            </div>
+          <div className="mt-12">
+            <PromptList
+              prompts={prompts}
+              favoritePrompts={favoritePrompts}
+              categories={categories}
+              onToggleFavorite={handleToggleFavorite}
+              onDelete={handleDeletePrompt}
+            />
+          </div>
         </div>
       </main>
     </div>

@@ -67,7 +67,7 @@ export default function NewPromptCard({ categories, onAddPrompt }: NewPromptCard
   }
 
   return (
-    <Card>
+    <Card className="flex-1">
       <CardHeader>
         <CardTitle>Create a New Prompt</CardTitle>
         <CardDescription>
