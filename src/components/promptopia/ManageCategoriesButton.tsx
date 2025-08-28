@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from 'react';
@@ -39,7 +38,7 @@ const formSchema = z.object({
 
 type ManageCategoriesButtonProps = {
   categories: Category[];
-  onAddCategory: (category: Omit<Category, 'id' | 'icon'> & { icon: React.ComponentType<any> }) => void;
+  onAddCategory: (category: Omit<Category, 'id'>) => void;
   onDeleteCategory: (id: string) => void;
 };
 
@@ -70,7 +69,7 @@ export default function ManageCategoriesButton({
         form.setError('name', { type: 'custom', message: 'Category name must be unique.' });
         return;
     }
-    onAddCategory({ name: values.name, icon: IconComponent });
+    onAddCategory({ name: values.name, icon: values.icon as any });
     toast({
       title: 'Category Added',
       description: `"${values.name}" has been added.`,
@@ -106,7 +105,7 @@ export default function ManageCategoriesButton({
         <ScrollArea className="max-h-60 pr-4">
           <div className="space-y-4 py-4">
             {categories.map((category) => {
-              const CategoryIcon = category.icon;
+              const CategoryIcon = availableIcons.find(i => i.name === (category.icon as unknown as string))?.component || category.icon;
               return (
                 <div key={category.id} className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
@@ -156,7 +155,7 @@ export default function ManageCategoriesButton({
                 )}
               />
               <DialogFooter>
-                <Button variant="ghost" onClick={() => setShowAddForm(false)}>Cancel</Button>
+                <Button variant="outline" onClick={() => setShowAddForm(false)}>Cancel</Button>
                 <Button type="submit">Save Category</Button>
               </DialogFooter>
             </form>
