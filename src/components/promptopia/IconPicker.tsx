@@ -42,8 +42,9 @@ export function IconPicker({ onIconSelect }: IconPickerProps) {
 
   const handleSelect = (currentValue: string) => {
     const iconName = currentValue === value ? "" : currentValue;
+    const iconData = availableIcons.find(icon => icon.name.toLowerCase() === iconName);
     setValue(iconName);
-    onIconSelect(iconName);
+    onIconSelect(iconData ? iconData.name : '');
     setOpen(false);
   }
 
@@ -56,7 +57,7 @@ export function IconPicker({ onIconSelect }: IconPickerProps) {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-full justify-between"
+          className="w-full justify-between bg-card"
         >
           {value && SelectedIcon
             ? <div className="flex items-center"><SelectedIcon className="mr-2 h-4 w-4" /></div>

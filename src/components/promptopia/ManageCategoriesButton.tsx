@@ -61,7 +61,7 @@ export default function ManageCategoriesButton({
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    const iconData = availableIcons.find(icon => icon.name.toLowerCase() === values.icon);
+    const iconData = availableIcons.find(icon => icon.name === values.icon);
     if (!iconData) {
         form.setError('icon', { type: 'custom', message: 'Invalid icon selected.' });
         return;
@@ -106,11 +106,12 @@ export default function ManageCategoriesButton({
         <ScrollArea className="max-h-60 pr-4">
           <div className="space-y-4 py-4">
             {categories.map((category) => {
-              const CategoryIcon = typeof category.icon === 'string'
-              ? (availableIcons.find(i => i.name === category.icon)?.component as LucideIcon)
-              : category.icon;
+              const iconName = typeof category.icon === 'function' ? (category.icon as LucideIcon).displayName : category.icon;
+              const CategoryIcon =
+                availableIcons.find((i) => i.name === iconName)?.component ||
+                category.icon;
               
-              if (!CategoryIcon) return null;
+              if (!CategoryIcon || typeof CategoryIcon === 'string') return null;
 
               return (
                 <div key={category.id} className="flex items-center justify-between">
@@ -156,7 +157,9 @@ export default function ManageCategoriesButton({
                   <FormItem>
                     <FormLabel>Icon</FormLabel>
                     <FormControl>
-                       <IconPicker onIconSelect={field.onChange} />
+                      <div className="select-open-gradient">
+                        <IconPicker onIconSelect={field.onChange} />
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>

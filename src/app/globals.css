@@ -104,4 +104,30 @@
     position: relative;
     z-index: 1;
   }
+
+  .select-open-gradient {
+    position: relative;
+    border-radius: var(--radius);
+    padding: 1px;
+    box-sizing: border-box;
+  }
+
+  .select-open-gradient::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius);
+    background: linear-gradient(to bottom right, hsl(var(--primary)), hsl(var(--accent)));
+    opacity: 0;
+    transition: opacity 300ms ease-in-out;
+  }
+  
+  .select-open-gradient:has([data-state=open])::before {
+    opacity: 1;
+  }
+
+  .select-open-gradient > * {
+    position: relative;
+    z-index: 1;
+  }
 }
