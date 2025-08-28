@@ -71,7 +71,7 @@ export function IconPicker({ onIconSelect }: IconPickerProps) {
           className="w-full justify-between"
         >
           {value && SelectedIcon
-            ? <div className="flex items-center"><SelectedIcon className="mr-2 h-4 w-4" /> {value}</div>
+            ? <div className="flex items-center"><SelectedIcon className="mr-2 h-4 w-4" /></div>
             : "Select icon..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -96,7 +96,6 @@ export function IconPicker({ onIconSelect }: IconPickerProps) {
                     )}
                   />
                   <IconComponent className="mr-2 h-4 w-4" />
-                  {icon.name}
                 </CommandItem>
               )
             })}
