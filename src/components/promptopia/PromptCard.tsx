@@ -1,13 +1,13 @@
+
 "use client";
 
-import { motion } from 'framer-motion';
-import { Heart, Trash2 } from 'lucide-react';
+import { useState } from 'react';
+import { Heart, Trash2, ChevronDown, ChevronUp } from 'lucide-react';
 import type { Prompt } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -34,6 +34,7 @@ type PromptCardProps = {
 
 export default function PromptCard({ prompt, onToggleFavorite, onDelete }: PromptCardProps) {
     const { toast } = useToast()
+    const [isExpanded, setIsExpanded] = useState(false);
 
     const handleDelete = () => {
         onDelete(prompt.id);
@@ -44,6 +45,8 @@ export default function PromptCard({ prompt, onToggleFavorite, onDelete }: Promp
         });
     }
 
+    const promptTooLong = prompt.content.length > 150;
+
   return (
       <Card className="prompt-card h-full shadow-md hover:shadow-lg transition-shadow duration-300">
         <div className="relative flex flex-col h-full bg-card rounded-md z-10">
@@ -51,10 +54,23 @@ export default function PromptCard({ prompt, onToggleFavorite, onDelete }: Promp
             <CardTitle className="font-headline">{prompt.title}</CardTitle>
             </CardHeader>
             <CardContent className="flex-grow">
-            <p className="text-sm text-muted-foreground break-words">{prompt.content}</p>
-
+              <p className={cn(
+                "text-sm text-muted-foreground break-words",
+                !isExpanded && promptTooLong && "line-clamp-3"
+              )}>
+                {prompt.content}
+              </p>
+               {promptTooLong && (
+                <button
+                  onClick={() => setIsExpanded(!isExpanded)}
+                  className="text-primary text-sm font-semibold hover:underline mt-2 flex items-center gap-1"
+                >
+                  {isExpanded ? 'Show less' : 'Show more'}
+                  {isExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                </button>
+              )}
             </CardContent>
-            <CardFooter className="flex justify-end gap-2">
+            <CardFooter className="flex justify-end gap-2 pt-4">
             <Button
                 variant="ghost"
                 size="icon"
