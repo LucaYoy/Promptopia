@@ -1,3 +1,4 @@
+
 "use client";
 
 import type { FormEvent } from "react";
@@ -92,7 +93,7 @@ export default function Home() {
       <main className="container mx-auto px-4 py-8">
         <div className="space-y-8">
             <NewPromptCard categories={categories} onAddPrompt={handleAddPrompt} />
-            <div className="flex justify-center pt-4">
+            <div className="flex justify-start pt-4">
                 <ManageCategoriesButton
                   categories={categories}
                   onAddCategory={handleAddCategory}
