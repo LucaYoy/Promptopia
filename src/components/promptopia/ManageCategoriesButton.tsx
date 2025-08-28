@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Settings, Plus, Trash2, type LucideIcon } from 'lucide-react';
+import { Settings, Plus, Trash2 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -61,7 +61,11 @@ export default function ManageCategoriesButton({
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    const IconComponent = availableIcons.find(icon => icon.name === values.icon) as LucideIcon;
+    const IconComponent = availableIcons.find(icon => icon.name.toLowerCase() === values.icon)?.component;
+    if (!IconComponent) {
+        form.setError('icon', { type: 'custom', message: 'Invalid icon selected.' });
+        return;
+    }
     if (categories.some(c => c.name.toLowerCase() === values.name.toLowerCase())) {
         form.setError('name', { type: 'custom', message: 'Category name must be unique.' });
         return;
