@@ -2,7 +2,7 @@
 "use client"
 
 import * as React from "react"
-import { Check, ChevronsUpDown, Book, Code2, Gamepad2, Megaphone, PenSquare, Zap, Star, Beaker, Brain, Briefcase, Film, GraduationCap, Lightbulb, Mic, Music, Palette, Plane, School, ShoppingCart, Video, Wallet } from "lucide-react"
+import { Check, ChevronsUpDown, PenSquare, Code2, Megaphone, Zap, Lightbulb, Book, Brain, Briefcase, Palette, Gamepad2 } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -21,26 +21,15 @@ import {
 
 export const availableIcons = [
   { name: 'PenSquare', component: PenSquare },
-  { name: 'Megaphone', component: Megaphone },
   { name: 'Code2', component: Code2 },
+  { name: 'Megaphone', component: Megaphone },
   { name: 'Zap', component: Zap },
-  { name: 'Gamepad2', component: Gamepad2 },
+  { name: 'Lightbulb', component: Lightbulb },
   { name: 'Book', component: Book },
-  { name: 'Star', component: Star },
-  { name: 'Beaker', component: Beaker },
   { name: 'Brain', component: Brain },
   { name: 'Briefcase', component: Briefcase },
-  { name: 'Film', component: Film },
-  { name: 'GraduationCap', component: GraduationCap },
-  { name: 'Lightbulb', component: Lightbulb },
-  { name: 'Mic', component: Mic },
-  { name: 'Music', component: Music },
   { name: 'Palette', component: Palette },
-  { name: 'Plane', component: Plane },
-  { name: 'School', component: School },
-  { name: 'ShoppingCart', component: ShoppingCart },
-  { name: 'Video', component: Video },
-  { name: 'Wallet', component: Wallet },
+  { name: 'Gamepad2', component: Gamepad2 },
 ];
 
 

@@ -7,7 +7,7 @@ import Header from '@/components/promptopia/Header';
 import NewPromptCard from '@/components/promptopia/NewPromptCard';
 import PromptList from '@/components/promptopia/PromptList';
 import ManageCategoriesButton from '@/components/promptopia/ManageCategoriesButton';
-import { Book, Code2, Gamepad2, Megaphone, PenSquare, Zap, Star } from 'lucide-react';
+import { PenSquare, Megaphone, Code2, Zap, Gamepad2 } from 'lucide-react';
 
 const initialCategories: Category[] = [
   { id: 'writing', name: 'Writing', icon: PenSquare },
@@ -70,7 +70,7 @@ export default function Home() {
     );
   };
 
-  const handleAddCategory = (category: Omit<Category, 'id'>) => {
+  const handleAddCategory = (category: Category) => {
     const newCategory: Category = {
       ...category,
       id: category.name.toLowerCase().replace(/\s+/g, '-'),
