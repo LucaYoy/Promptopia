@@ -10,7 +10,6 @@ import {
   Command,
   CommandEmpty,
   CommandGroup,
-  CommandInput,
   CommandItem,
 } from "@/components/ui/command"
 import {
@@ -67,7 +66,6 @@ export function IconPicker({ onIconSelect }: IconPickerProps) {
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="Search icon..." />
           <CommandEmpty>No icon found.</CommandEmpty>
           <CommandGroup>
             {availableIcons.map((icon) => {
