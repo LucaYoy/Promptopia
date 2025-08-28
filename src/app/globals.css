@@ -82,20 +82,26 @@
   .input-focus-gradient {
     position: relative;
     border-radius: var(--radius);
+    padding: 1px;
+    box-sizing: border-box;
   }
 
   .input-focus-gradient::before {
     content: '';
     position: absolute;
-    inset: -1px;
+    inset: 0;
     border-radius: var(--radius);
     background: linear-gradient(to bottom right, hsl(var(--primary)), hsl(var(--accent)));
     opacity: 0;
     transition: opacity 300ms ease-in-out;
-    z-index: -1;
   }
 
   .input-focus-gradient:focus-within::before {
     opacity: 1;
+  }
+
+  .input-focus-gradient > * {
+    position: relative;
+    z-index: 1;
   }
 }
