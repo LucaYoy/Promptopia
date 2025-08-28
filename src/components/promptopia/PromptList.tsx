@@ -38,7 +38,7 @@ export default function PromptList({
             return (
               <div key={category.id}>
                 <div className="flex items-center gap-3 mb-4">
-                  <CategoryIcon className="h-6 w-6 text-muted-foreground" />
+                  {CategoryIcon && <CategoryIcon className="h-6 w-6 text-muted-foreground" />}
                   <h2 className="text-xl font-semibold tracking-tight font-headline text-foreground">
                     {category.name}
                   </h2>

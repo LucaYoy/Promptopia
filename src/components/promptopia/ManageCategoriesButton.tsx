@@ -60,8 +60,8 @@ export default function ManageCategoriesButton({
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    const IconComponent = availableIcons.find(icon => icon.name.toLowerCase() === values.icon)?.component;
-    if (!IconComponent) {
+    const iconData = availableIcons.find(icon => icon.name.toLowerCase() === values.icon);
+    if (!iconData) {
         form.setError('icon', { type: 'custom', message: 'Invalid icon selected.' });
         return;
     }
@@ -69,7 +69,7 @@ export default function ManageCategoriesButton({
         form.setError('name', { type: 'custom', message: 'Category name must be unique.' });
         return;
     }
-    onAddCategory({ name: values.name, icon: values.icon as any });
+    onAddCategory({ name: values.name, icon: iconData.component as any });
     toast({
       title: 'Category Added',
       description: `"${values.name}" has been added.`,
@@ -105,7 +105,7 @@ export default function ManageCategoriesButton({
         <ScrollArea className="max-h-60 pr-4">
           <div className="space-y-4 py-4">
             {categories.map((category) => {
-              const CategoryIcon = availableIcons.find(i => i.name === (category.icon as unknown as string))?.component || category.icon;
+              const CategoryIcon = category.icon;
               return (
                 <div key={category.id} className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
