@@ -2,7 +2,7 @@
 "use client";
 
 import { useState } from 'react';
-import { Heart, Trash2, ChevronDown, ChevronUp } from 'lucide-react';
+import { Heart, Trash2, ChevronDown, ChevronUp, ClipboardCopy } from 'lucide-react';
 import type { Prompt } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import {
@@ -45,6 +45,14 @@ export default function PromptCard({ prompt, onToggleFavorite, onDelete }: Promp
         });
     }
 
+    const handleCopy = () => {
+      navigator.clipboard.writeText(prompt.content);
+      toast({
+        title: "Prompt Copied!",
+        description: "The prompt content has been copied to your clipboard.",
+      });
+    };
+
     const promptTooLong = prompt.content.length > 150;
 
   return (
@@ -71,6 +79,14 @@ export default function PromptCard({ prompt, onToggleFavorite, onDelete }: Promp
               )}
             </CardContent>
             <CardFooter className="flex justify-end gap-2 pt-4">
+            <Button
+                variant="ghost"
+                size="icon"
+                aria-label="Copy prompt"
+                onClick={handleCopy}
+            >
+                <ClipboardCopy className="h-5 w-5 text-muted-foreground hover:text-primary transition-colors duration-300" />
+            </Button>
             <Button
                 variant="ghost"
                 size="icon"
