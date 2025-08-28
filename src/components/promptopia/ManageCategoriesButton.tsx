@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Settings, Plus, Trash2 } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -69,7 +70,7 @@ export default function ManageCategoriesButton({
         form.setError('name', { type: 'custom', message: 'Category name must be unique.' });
         return;
     }
-    onAddCategory({ name: values.name, icon: iconData.component as any });
+    onAddCategory({ name: values.name, icon: iconData.component });
     toast({
       title: 'Category Added',
       description: `"${values.name}" has been added.`,
@@ -105,7 +106,12 @@ export default function ManageCategoriesButton({
         <ScrollArea className="max-h-60 pr-4">
           <div className="space-y-4 py-4">
             {categories.map((category) => {
-              const CategoryIcon = category.icon;
+              const CategoryIcon = typeof category.icon === 'string'
+              ? (availableIcons.find(i => i.name === category.icon)?.component as LucideIcon)
+              : category.icon;
+              
+              if (!CategoryIcon) return null;
+
               return (
                 <div key={category.id} className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
@@ -135,7 +141,9 @@ export default function ManageCategoriesButton({
                   <FormItem>
                     <FormLabel>New Category Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g., Education" {...field} />
+                      <div className="input-focus-gradient">
+                        <Input placeholder="e.g., Education" {...field} />
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>

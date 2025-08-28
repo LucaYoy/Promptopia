@@ -86,7 +86,9 @@ export default function NewPromptCard({ categories, onAddPrompt }: NewPromptCard
                     <FormItem>
                       <FormLabel>Title</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g., Blog Post Idea Generator" {...field} />
+                        <div className="input-focus-gradient">
+                          <Input placeholder="e.g., Blog Post Idea Generator" {...field} />
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -127,11 +129,13 @@ export default function NewPromptCard({ categories, onAddPrompt }: NewPromptCard
                 <FormItem>
                   <FormLabel>Prompt Content</FormLabel>
                   <FormControl>
-                    <Textarea
-                      placeholder="Enter your prompt template. Use {placeholders} for dynamic values."
-                      className="min-h-[120px] resize-y"
-                      {...field}
-                    />
+                    <div className="input-focus-gradient">
+                      <Textarea
+                        placeholder="Enter your prompt template. Use {placeholders} for dynamic values."
+                        className="min-h-[120px] resize-y"
+                        {...field}
+                      />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>

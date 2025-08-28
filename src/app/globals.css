@@ -14,7 +14,7 @@
     --primary-foreground: 0 0% 100%;
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 210 40% 9.8%;
-    --muted: 207 90% 90%;
+    --muted: 207 90% 80%;
     --muted-foreground: 210 38.8% 45.1%;
     --accent: 35 98% 65%; /* #FFB74D */
     --accent-foreground: 35 100% 15%;
@@ -76,6 +76,26 @@
   }
 
   .prompt-card:hover::before {
+    opacity: 1;
+  }
+
+  .input-focus-gradient {
+    position: relative;
+    border-radius: var(--radius);
+  }
+
+  .input-focus-gradient::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: var(--radius);
+    background: linear-gradient(to bottom right, hsl(var(--primary)), hsl(var(--accent)));
+    opacity: 0;
+    transition: opacity 300ms ease-in-out;
+    z-index: -1;
+  }
+
+  .input-focus-gradient:focus-within::before {
     opacity: 1;
   }
 }
