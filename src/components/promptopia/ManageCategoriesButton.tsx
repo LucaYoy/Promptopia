@@ -39,7 +39,7 @@ const formSchema = z.object({
 
 type ManageCategoriesButtonProps = {
   categories: Category[];
-  onAddCategory: (category: Omit<Category, 'id'>) => void;
+  onAddCategory: (category: Omit<Category, 'id' | 'icon'> & { icon: React.ComponentType<any> }) => void;
   onDeleteCategory: (id: string) => void;
 };
 
@@ -164,7 +164,7 @@ export default function ManageCategoriesButton({
         ) : (
           <DialogFooter>
             <DialogClose asChild>
-              <Button type="button" variant="secondary">
+              <Button type="button" variant="outline">
                 Close
               </Button>
             </DialogClose>
