@@ -7,7 +7,7 @@ import Header from '@/components/promptopia/Header';
 import NewPromptCard from '@/components/promptopia/NewPromptCard';
 import PromptList from '@/components/promptopia/PromptList';
 import ManageCategoriesButton from '@/components/promptopia/ManageCategoriesButton';
-import { PenSquare, Megaphone, Code2, Zap, Gamepad2 } from 'lucide-react';
+import { PenSquare, Megaphone, Code2, Zap, Gamepad2, Lightbulb, Book, Brain, Briefcase, Palette } from 'lucide-react';
 
 const initialCategories: Category[] = [
   { id: 'writing', name: 'Writing', icon: PenSquare },
@@ -91,15 +91,13 @@ export default function Home() {
       <Header />
       <main className="container mx-auto px-4 py-8">
         <div className="space-y-8">
-            <div className="flex justify-between items-start">
-              <NewPromptCard categories={categories} onAddPrompt={handleAddPrompt} />
-              <div className="ml-4">
-                  <ManageCategoriesButton
-                    categories={categories}
-                    onAddCategory={handleAddCategory}
-                    onDeleteCategory={handleDeleteCategory}
-                  />
-              </div>
+            <NewPromptCard categories={categories} onAddPrompt={handleAddPrompt} />
+            <div className="flex justify-center pt-4">
+                <ManageCategoriesButton
+                  categories={categories}
+                  onAddCategory={handleAddCategory}
+                  onDeleteCategory={handleDeleteCategory}
+                />
             </div>
           <div className="mt-12">
             <PromptList
