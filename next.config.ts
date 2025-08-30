@@ -24,6 +24,17 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  webpack: (config, { isServer }) => {
+    // This is to allow the manifest file to be handled correctly.
+    config.module.rules.push({
+      test: /manifest\.json$/,
+      type: 'asset/resource',
+      generator: {
+        filename: 'manifest.json',
+      },
+    });
+    return config;
+  }
 };
 
 export default nextConfig;
