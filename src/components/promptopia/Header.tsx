@@ -1,4 +1,7 @@
+"use client";
+
 import { Sparkles } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 export default function Header() {
   return (
@@ -9,6 +12,11 @@ export default function Header() {
           <h1 className="text-2xl font-bold tracking-tight font-headline">
             Promptopia
           </h1>
+        </div>
+        <div>
+          <Button variant="outline">
+            Sign In
+          </Button>
         </div>
       </div>
     </header>
