@@ -13,11 +13,6 @@ export default function Header() {
             Promptopia
           </h1>
         </div>
-        <div>
-          <Button variant="outline">
-            Sign In
-          </Button>
-        </div>
       </div>
     </header>
   );
