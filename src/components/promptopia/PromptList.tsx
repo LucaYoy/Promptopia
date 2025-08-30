@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import PromptCard from '@/components/promptopia/PromptCard';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Heart, Archive } from 'lucide-react';
+import { availableIcons } from './IconPicker';
 
 type PromptListProps = {
   prompts: Prompt[];
@@ -33,7 +34,8 @@ export default function PromptList({
             const categoryPrompts = prompts.filter(p => p.category === category.id);
             if (categoryPrompts.length === 0) return null;
 
-            const CategoryIcon = category.icon;
+            const iconName = category.icon as string;
+            const CategoryIcon = availableIcons.find(i => i.name === iconName)?.component;
 
             return (
               <div key={category.id}>

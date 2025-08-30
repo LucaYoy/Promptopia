@@ -11,5 +11,5 @@ export interface Prompt {
 export interface Category {
   id: string;
   name: string;
-  icon: LucideIcon;
+  icon: string | LucideIcon;
 }

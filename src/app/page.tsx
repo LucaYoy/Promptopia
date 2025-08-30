@@ -1,88 +1,111 @@
 
 "use client";
 
-import type { FormEvent } from "react";
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import type { Prompt, Category } from '@/lib/types';
 import Header from '@/components/promptopia/Header';
 import NewPromptCard from '@/components/promptopia/NewPromptCard';
 import PromptList from '@/components/promptopia/PromptList';
 import ManageCategoriesButton from '@/components/promptopia/ManageCategoriesButton';
-import { PenSquare, Megaphone, Code2, Zap, Gamepad2, Lightbulb, Book, Brain, Briefcase, Palette } from 'lucide-react';
-
-const initialCategories: Category[] = [
-  { id: 'writing', name: 'Writing', icon: PenSquare },
-  { id: 'marketing', name: 'Marketing', icon: Megaphone },
-  { id: 'coding', name: 'Coding', icon: Code2 },
-  { id: 'productivity', name: 'Productivity', icon: Zap },
-  { id: 'fun', name: 'Fun', icon: Gamepad2 },
-];
-
-const initialPrompts: Prompt[] = [
-  {
-    id: '1',
-    title: 'Blog Post Idea Generator',
-    content: 'Generate 5 blog post ideas for a blog about {topic}. The ideas should be catchy, relevant, and SEO-friendly.',
-    category: 'writing',
-    favorite: true,
-  },
-  {
-    id: '2',
-    title: 'React Component Boilerplate',
-    content: 'Create a functional React component called `{componentName}` with TypeScript. It should accept the following props: {props}. Include basic styling with Tailwind CSS.',
-    category: 'coding',
-    favorite: false,
-  },
-  {
-    id: '3',
-    title: 'Ad Copy for Social Media',
-    content: 'Write 3 versions of ad copy for a new {product} on {platform}. The target audience is {audience}, and the key benefit is {benefit}.',
-    category: 'marketing',
-    favorite: true,
-  },
-  {
-    id: '4',
-    title: 'Meeting Summary',
-    content: 'Summarize the following meeting transcript into key bullet points, action items, and decisions made. Transcript: {transcript}',
-    category: 'productivity',
-    favorite: false,
-  },
-];
-
+import {
+  addCategory as dbAddCategory,
+  deleteCategory as dbDeleteCategory,
+  getCategories,
+  addPrompt as dbAddPrompt,
+  deletePrompt as dbDeletePrompt,
+  getPrompts,
+  updatePrompt,
+} from '@/services/firestore';
+import { PenSquare } from 'lucide-react';
 
 export default function Home() {
-  const [prompts, setPrompts] = useState<Prompt[]>(initialPrompts);
-  const [categories, setCategories] = useState<Category[]>(initialCategories);
+  const [prompts, setPrompts] = useState<Prompt[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const handleAddPrompt = (newPrompt: Omit<Prompt, 'id' | 'favorite'>) => {
-    setPrompts(prev => [
-      { ...newPrompt, id: Date.now().toString(), favorite: false },
-      ...prev,
-    ]);
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [fetchedPrompts, fetchedCategories] = await Promise.all([
+          getPrompts(),
+          getCategories(),
+        ]);
+        setPrompts(fetchedPrompts);
+        
+        // If no categories are fetched, create a default one.
+        if (fetchedCategories.length === 0) {
+          const defaultCategory = { name: 'Writing', icon: 'PenSquare' };
+          const newCategoryId = await dbAddCategory(defaultCategory);
+          setCategories([{ ...defaultCategory, id: newCategoryId }]);
+        } else {
+          setCategories(fetchedCategories);
+        }
 
-  const handleDeletePrompt = (id: string) => {
-    setPrompts(prev => prev.filter(p => p.id !== id));
-  };
-
-  const handleToggleFavorite = (id: string) => {
-    setPrompts(prev =>
-      prev.map(p => (p.id === id ? { ...p, favorite: !p.favorite } : p))
-    );
-  };
-
-  const handleAddCategory = (category: Category) => {
-    const newCategory: Category = {
-      ...category,
-      id: category.name.toLowerCase().replace(/\s+/g, '-'),
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
     };
-    setCategories(prev => [...prev, newCategory]);
+
+    fetchData();
+  }, []);
+
+  const handleAddPrompt = async (newPrompt: Omit<Prompt, 'id' | 'favorite'>) => {
+    try {
+      const newPromptId = await dbAddPrompt({ ...newPrompt, favorite: false });
+      setPrompts(prev => [
+        { ...newPrompt, id: newPromptId, favorite: false },
+        ...prev,
+      ]);
+    } catch (error) {
+      console.error("Error adding prompt: ", error);
+    }
   };
 
-  const handleDeleteCategory = (id: string) => {
-    setCategories(prev => prev.filter(c => c.id !== id));
-    // Also delete prompts associated with this category
-    setPrompts(prev => prev.filter(p => p.category !== id));
+  const handleDeletePrompt = async (id: string) => {
+    try {
+      await dbDeletePrompt(id);
+      setPrompts(prev => prev.filter(p => p.id !== id));
+    } catch (error) {
+      console.error("Error deleting prompt: ", error);
+    }
+  };
+
+  const handleToggleFavorite = async (id: string) => {
+    const promptToUpdate = prompts.find(p => p.id === id);
+    if (!promptToUpdate) return;
+    
+    const updatedFavoriteStatus = !promptToUpdate.favorite;
+    
+    try {
+      await updatePrompt(id, { favorite: updatedFavoriteStatus });
+      setPrompts(prev =>
+        prev.map(p => (p.id === id ? { ...p, favorite: updatedFavoriteStatus } : p))
+      );
+    } catch (error) {
+      console.error("Error toggling favorite: ", error);
+    }
+  };
+
+  const handleAddCategory = async (category: Omit<Category, 'id'>) => {
+    try {
+      const newCategoryId = await dbAddCategory(category);
+      setCategories(prev => [...prev, { ...category, id: newCategoryId }]);
+    } catch (error) {
+      console.error("Error adding category: ", error);
+    }
+  };
+
+  const handleDeleteCategory = async (id: string) => {
+    try {
+      await dbDeleteCategory(id);
+      setCategories(prev => prev.filter(c => c.id !== id));
+      // Also delete prompts associated with this category
+      setPrompts(prev => prev.filter(p => p.category !== id));
+    } catch (error) {
+      console.error("Error deleting category: ", error);
+    }
   };
 
   const favoritePrompts = useMemo(() => prompts.filter(p => p.favorite), [prompts]);
@@ -101,13 +124,17 @@ export default function Home() {
                 />
             </div>
           <div className="mt-12">
-            <PromptList
-              prompts={prompts}
-              favoritePrompts={favoritePrompts}
-              categories={categories}
-              onToggleFavorite={handleToggleFavorite}
-              onDelete={handleDeletePrompt}
-            />
+            {loading ? (
+              <p>Loading...</p> 
+            ) : (
+              <PromptList
+                prompts={prompts}
+                favoritePrompts={favoritePrompts}
+                categories={categories}
+                onToggleFavorite={handleToggleFavorite}
+                onDelete={handleDeletePrompt}
+              />
+            )}
           </div>
         </div>
       </main>
